@@ -65,8 +65,8 @@ final class BlameableEventSubscriber
      */
     public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof BlameableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof BlameableInterface) {
             return;
         }
 
@@ -76,18 +76,18 @@ final class BlameableEventSubscriber
             return;
         }
 
-        if (! $entity->getCreatedBy()) {
-            $entity->setCreatedBy($user);
+        if (! $object->getCreatedBy()) {
+            $object->setCreatedBy($user);
 
             $this->getUnitOfWork()
-                ->propertyChanged($entity, self::CREATED_BY, null, $user);
+                ->propertyChanged($object, self::CREATED_BY, null, $user);
         }
 
-        if (! $entity->getUpdatedBy()) {
-            $entity->setUpdatedBy($user);
+        if (! $object->getUpdatedBy()) {
+            $object->setUpdatedBy($user);
 
             $this->getUnitOfWork()
-                ->propertyChanged($entity, self::UPDATED_BY, null, $user);
+                ->propertyChanged($object, self::UPDATED_BY, null, $user);
         }
     }
 
@@ -96,8 +96,8 @@ final class BlameableEventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof BlameableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof BlameableInterface) {
             return;
         }
 
@@ -106,11 +106,11 @@ final class BlameableEventSubscriber
             return;
         }
 
-        $oldValue = $entity->getUpdatedBy();
-        $entity->setUpdatedBy($user);
+        $oldValue = $object->getUpdatedBy();
+        $object->setUpdatedBy($user);
 
         $this->getUnitOfWork()
-            ->propertyChanged($entity, self::UPDATED_BY, $oldValue, $user);
+            ->propertyChanged($object, self::UPDATED_BY, $oldValue, $user);
     }
 
     /**
@@ -118,8 +118,8 @@ final class BlameableEventSubscriber
      */
     public function preRemove(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof BlameableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof BlameableInterface) {
             return;
         }
 
@@ -128,11 +128,11 @@ final class BlameableEventSubscriber
             return;
         }
 
-        $oldDeletedBy = $entity->getDeletedBy();
-        $entity->setDeletedBy($user);
+        $oldDeletedBy = $object->getDeletedBy();
+        $object->setDeletedBy($user);
 
         $this->getUnitOfWork()
-            ->propertyChanged($entity, self::DELETED_BY, $oldDeletedBy, $user);
+            ->propertyChanged($object, self::DELETED_BY, $oldDeletedBy, $user);
     }
 
     private function mapEntity(ClassMetadataInfo $classMetadataInfo): void

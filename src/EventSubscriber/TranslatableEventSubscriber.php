@@ -156,19 +156,19 @@ final class TranslatableEventSubscriber
 
     private function setLocales(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof TranslatableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof TranslatableInterface) {
             return;
         }
 
         $currentLocale = $this->localeProvider->provideCurrentLocale();
         if ($currentLocale) {
-            $entity->setCurrentLocale($currentLocale);
+            $object->setCurrentLocale($currentLocale);
         }
 
         $fallbackLocale = $this->localeProvider->provideFallbackLocale();
         if ($fallbackLocale) {
-            $entity->setDefaultLocale($fallbackLocale);
+            $object->setDefaultLocale($fallbackLocale);
         }
     }
 

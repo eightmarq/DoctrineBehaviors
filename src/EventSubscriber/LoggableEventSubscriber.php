@@ -24,12 +24,12 @@ final class LoggableEventSubscriber
 
     public function postPersist(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof LoggableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof LoggableInterface) {
             return;
         }
 
-        $createLogMessage = $entity->getCreateLogMessage();
+        $createLogMessage = $object->getCreateLogMessage();
         $this->logger->log(LogLevel::INFO, $createLogMessage);
 
         $this->logChangeSet($lifecycleEventArgs);
@@ -37,8 +37,8 @@ final class LoggableEventSubscriber
 
     public function postUpdate(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof LoggableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof LoggableInterface) {
             return;
         }
 
@@ -47,10 +47,10 @@ final class LoggableEventSubscriber
 
     public function preRemove(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
+        $object = $lifecycleEventArgs->getObject();
 
-        if ($entity instanceof LoggableInterface) {
-            $this->logger->log(LogLevel::INFO, $entity->getRemoveLogMessage());
+        if ($object instanceof LoggableInterface) {
+            $this->logger->log(LogLevel::INFO, $object->getRemoveLogMessage());
         }
     }
 
@@ -59,19 +59,19 @@ final class LoggableEventSubscriber
      */
     private function logChangeSet(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        /** @var EntityManagerInterface $entityManager */
-        $entityManager = $lifecycleEventArgs->getObjectManager();
-        $unitOfWork = $entityManager->getUnitOfWork();
-        $entity = $lifecycleEventArgs->getObject();
+        /** @var EntityManagerInterface $objectManager */
+        $objectManager = $lifecycleEventArgs->getObjectManager();
+        $unitOfWork = $objectManager->getUnitOfWork();
+        $object = $lifecycleEventArgs->getObject();
 
-        $entityClass = $entity::class;
-        $classMetadata = $entityManager->getClassMetadata($entityClass);
+        $objectClass = $object::class;
+        $classMetadata = $objectManager->getClassMetadata($objectClass);
 
-        /** @var LoggableInterface $entity */
-        $unitOfWork->computeChangeSet($classMetadata, $entity);
-        $changeSet = $unitOfWork->getEntityChangeSet($entity);
+        /** @var LoggableInterface $object */
+        $unitOfWork->computeChangeSet($classMetadata, $object);
+        $changeSet = $unitOfWork->getEntityChangeSet($object);
 
-        $message = $entity->getUpdateLogMessage($changeSet);
+        $message = $object->getUpdateLogMessage($changeSet);
 
         if ($message === '') {
             return;

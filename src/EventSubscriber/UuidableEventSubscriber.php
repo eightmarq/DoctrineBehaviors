@@ -39,11 +39,11 @@ final class UuidableEventSubscriber
 
     public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof UuidableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof UuidableInterface) {
             return;
         }
 
-        $entity->generateUuid();
+        $object->generateUuid();
     }
 }

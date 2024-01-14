@@ -64,15 +64,15 @@ final class SluggableEventSubscriber
 
     private function processLifecycleEventArgs(LifecycleEventArgs $lifecycleEventArgs): void
     {
-        $entity = $lifecycleEventArgs->getObject();
-        if (! $entity instanceof SluggableInterface) {
+        $object = $lifecycleEventArgs->getObject();
+        if (! $object instanceof SluggableInterface) {
             return;
         }
 
-        $entity->generateSlug();
+        $object->generateSlug();
 
-        if ($entity->shouldGenerateUniqueSlugs()) {
-            $this->generateUniqueSlugFor($entity);
+        if ($object->shouldGenerateUniqueSlugs()) {
+            $this->generateUniqueSlugFor($object);
         }
     }
 
