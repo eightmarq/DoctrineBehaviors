@@ -16,7 +16,7 @@ interface TreeNodeInterface
     /**
      * @return string|int|null The field that will represent the node in the path
      */
-    public function getNodeId();
+    public function getNodeId(): mixed;
 
     /**
      * @return string The representation of path from all ancestors

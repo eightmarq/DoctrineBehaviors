@@ -17,7 +17,7 @@ trait TreeNodeMethodsTrait
     /**
      * @return string|int|null
      */
-    public function getNodeId()
+    public function getNodeId(): mixed
     {
         return $this->getId();
     }
@@ -268,10 +268,7 @@ trait TreeNodeMethodsTrait
         unset($this->getChildNodes()[$offset]);
     }
 
-    /**
-     * @return mixed
-     */
-    public function offsetGet(mixed $offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->getChildNodes()[$offset];
     }
