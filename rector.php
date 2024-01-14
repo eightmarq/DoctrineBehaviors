@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
-use Rector\Php80\Rector\FunctionLike\UnionTypesRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\ClassMethod\ReturnUnionTypeRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([__DIR__ . '/src', __DIR__ . '/tests', __DIR__ . '/utils']);
@@ -17,7 +17,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         RenamePropertyToMatchTypeRector::class => [__DIR__ . '/tests/ORM/'],
 
-        UnionTypesRector::class => [
+        ReturnUnionTypeRector::class => [
             // to keep BC return types
             __DIR__ . '/src/Contract/Entity',
             'src/Model/*/*Trait.php',
