@@ -7,10 +7,12 @@ namespace Knp\DoctrineBehaviors\EventSubscriber;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\UnitOfWork;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Knp\DoctrineBehaviors\Contract\Entity\BlameableInterface;
 use Knp\DoctrineBehaviors\Contract\Provider\UserProviderInterface;
 
@@ -63,9 +65,9 @@ final class BlameableEventSubscriber
     /**
      * Stores the current user into createdBy and updatedBy properties
      */
-    public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void
+    public function prePersist(PrePersistEventArgs $prePersistEventArgs): void
     {
-        $object = $lifecycleEventArgs->getObject();
+        $object = $prePersistEventArgs->getObject();
         if (! $object instanceof BlameableInterface) {
             return;
         }
@@ -94,9 +96,9 @@ final class BlameableEventSubscriber
     /**
      * Stores the current user into updatedBy property
      */
-    public function preUpdate(LifecycleEventArgs $lifecycleEventArgs): void
+    public function preUpdate(PreUpdateEventArgs $preUpdateEventArgs): void
     {
-        $object = $lifecycleEventArgs->getObject();
+        $object = $preUpdateEventArgs->getObject();
         if (! $object instanceof BlameableInterface) {
             return;
         }
@@ -116,9 +118,9 @@ final class BlameableEventSubscriber
     /**
      * Stores the current user into deletedBy property
      */
-    public function preRemove(LifecycleEventArgs $lifecycleEventArgs): void
+    public function preRemove(PreRemoveEventArgs $preRemoveEventArgs): void
     {
-        $object = $lifecycleEventArgs->getObject();
+        $object = $preRemoveEventArgs->getObject();
         if (! $object instanceof BlameableInterface) {
             return;
         }

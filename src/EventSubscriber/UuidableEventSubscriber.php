@@ -6,8 +6,8 @@ namespace Knp\DoctrineBehaviors\EventSubscriber;
 
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Knp\DoctrineBehaviors\Contract\Entity\UuidableInterface;
 
 #[AsDoctrineListener(event: Events::loadClassMetadata)]
@@ -37,9 +37,9 @@ final class UuidableEventSubscriber
         ]);
     }
 
-    public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void
+    public function prePersist(PrePersistEventArgs $prePersistEventArgs): void
     {
-        $object = $lifecycleEventArgs->getObject();
+        $object = $prePersistEventArgs->getObject();
         if (! $object instanceof UuidableInterface) {
             return;
         }
