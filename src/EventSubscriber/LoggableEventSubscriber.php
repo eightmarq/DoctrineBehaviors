@@ -61,13 +61,13 @@ final class LoggableEventSubscriber
      */
     private function logChangeSet(PostPersistEventArgs|PostUpdateEventArgs $eventArgs): void
     {
-        /** @var EntityManagerInterface $objectManager */
-        $objectManager = $eventArgs->getObjectManager();
-        $unitOfWork = $objectManager->getUnitOfWork();
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $eventArgs->getObjectManager();
+        $unitOfWork = $entityManager->getUnitOfWork();
         $object = $eventArgs->getObject();
 
         $objectClass = $object::class;
-        $classMetadata = $objectManager->getClassMetadata($objectClass);
+        $classMetadata = $entityManager->getClassMetadata($objectClass);
 
         /** @var LoggableInterface $object */
         $unitOfWork->computeChangeSet($classMetadata, $object);
