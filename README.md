@@ -108,3 +108,16 @@ Run Rector:
 ```bash
 vendor/bin/rector process src
 ```
+
+## Docker
+
+### Usage
+
+- Install Docker and Docker Compose
+- Build or rebuild service: `docker compose build`
+- Create or start container: `docker compose up -d`
+- Enter the `php` container: `docker compose exec php /bin/sh`
+- Run commands:
+    - `composer check-cs`
+    - `composer phpstan`
+    - `vendor/bin/phpunit`
