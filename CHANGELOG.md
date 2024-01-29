@@ -9,6 +9,14 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## [v2.0.9] - 2024-01-13
+
+### Changed
+
+- Update for newer versions of symfony, php, doctrine and etc. after fork original KnpLabs/DoctrineBehaviors [@schvoy]
+- Remove deprecations [@schvoy]
+- Replace LifecycleEventArgs with specific EventArgs class based on the event. [@schvoy]
+
 ## [v2.0.1] - 2020-01-08
 
 ### Changed
